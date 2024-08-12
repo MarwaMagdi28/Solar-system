@@ -40,6 +40,7 @@ jobs:
 
             - name: archive test result
               if: failure() && (steps.nodejs-unit-testing-step.outcome == 'failure' || steps.nodejs-unit-testing-step.outcome == 'success')
+              #if: always()
               uses: actions/upload-artifact@v3
               with:
                 name: mocha-test-result
@@ -70,5 +71,29 @@ jobs:
             with:
               name: code-coverage-result
               path: coverage
-              retention-days: 5
+              retention-days: 
+      
+    docker:
+      name: containerization
+      needs: [unit-testing, code-coverage] 
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+
+        - name: docker hub login
+          uses: actions/login-action@v4
+          with:
+            username: ${{ vars.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+
+        - name: Build and push
+          uses: docker/build-push-action@v5
+          with:
+            context: .
+            push: false
+            tags: ${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}
+
+      
           
