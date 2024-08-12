@@ -83,7 +83,7 @@ jobs:
           uses: actions/checkout@v4
 
         - name: docker hub login
-          uses: actions/login-action@v4
+          uses: actions/login-action@v2
           with:
             username: ${{ vars.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
