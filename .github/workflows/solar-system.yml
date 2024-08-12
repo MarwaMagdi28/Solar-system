@@ -109,7 +109,7 @@ jobs:
                 #docker inspect solar-system-app | grep i IPAddress
 
                 echo testing image URL using wget
-                wget -q -o - 127.0.0.1:3000/live | grep live
+                wget -q -O - 127.0.0.1:3000/live | grep live
       
         - name: Build and push
           uses: docker/build-push-action@v5
