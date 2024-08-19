@@ -24,12 +24,9 @@ jobs:
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Set lowercase owner name
-      run: echo "OWNER_LC=${{ github.repository_owner,, }}" >> $GITHUB_ENV
-
     - name: Build and push Docker image
       uses: docker/build-push-action@v2
       with:
         context: .
         push: true
-        tags: ghcr.io/${{ env.OWNER_LC }}/solar-system:latest
+        tags: ghcr.io/${{ github.repository_owner }}/solar-system:latest
